@@ -2,8 +2,6 @@ import { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 const NavBar = ({ children }) => {
   const [tab, setTab] = useState("history");
-  const devices = useCameraDevices();
-  const device = devices.back;
   return (
     <View style={styles.main}>
       <Text style={styles.elem}>{tab}</Text>
