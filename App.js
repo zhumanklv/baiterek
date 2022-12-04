@@ -13,7 +13,7 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://192.168.0.189:3000";
 const NavBar = ({}) => {
   const [tab, setTab] = useState("history");
   let cameraRef = useRef();
@@ -58,19 +58,36 @@ const NavBar = ({}) => {
       });
     };
 
+    const myjson = {
+      base64: photo.base64
+    };
+    
     const predictPic = async () => {
-      const formData = new FormData("file", photo.base64);
+      try {
+        const formData = new FormData();
+        formData.append('file', {
+  uri: "data:image/jpg;base64," + photo.base64,
+  type: 'image/jpg',
+  name: 'image.jpg',
+});
+      // console.log("checkayu", photo);
       const response = await axios.post(
-        BASE_URL + "/predict/image",
-        JSON.stringify(FormData),
+        BASE_URL + "/predict/image_json",
+        JSON.stringify(myjson),
         {
           headers: {
-            "Content-type": "multipart/form-data",
+            "Content-type": "application/json",
             withCredentials: true,
           },
         }
       );
-      setResponse(response.data);
+        
+      setResponse(response.data.class);
+  
+      } catch (error) {
+      console.log('Exception Error: ', error)
+      }
+      
     };
 
     return (
