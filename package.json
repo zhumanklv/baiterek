@@ -9,16 +9,17 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "axios": "^1.2.0",
     "expo": "~47.0.6",
+    "expo-camera": "~13.1.0",
     "expo-cli": "^6.0.8",
+    "expo-media-library": "~15.0.0",
+    "expo-sharing": "~11.0.1",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-svg": "13.4.0",
-    "react-native-vision-camera": "^2.15.2",
-    "expo-camera": "~13.1.0",
-    "expo-sharing": "~11.0.1",
-    "expo-media-library": "~15.0.0"
+    "react-native-vision-camera": "^2.15.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

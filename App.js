@@ -11,6 +11,9 @@ import {
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
+import axios from "axios";
+
+const BASE_URL = "http://localhost:3000";
 const NavBar = ({}) => {
   const [tab, setTab] = useState("history");
   let cameraRef = useRef();
@@ -18,6 +21,7 @@ const NavBar = ({}) => {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] =
     useState(undefined);
   const [photo, setPhoto] = useState(false);
+  const [response, setResponse] = useState("loading...");
 
   useEffect(() => {
     (async () => {
@@ -54,12 +58,29 @@ const NavBar = ({}) => {
       });
     };
 
+    const predictPic = async () => {
+      const formData = new FormData("file", photo.base64);
+      const response = await axios.post(
+        BASE_URL + "/predict/image",
+        JSON.stringify(FormData),
+        {
+          headers: {
+            "Content-type": "multipart/form-data",
+            withCredentials: true,
+          },
+        }
+      );
+      setResponse(response.data);
+    };
+
     return (
       <SafeAreaView style={styles.cameraContainer}>
         <Image
           style={styles.preview}
           source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
+        <Text>{response}</Text>
+        <Button title="Predict" onPress={predictPic} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission && (
           <Button title="Save" onPress={savePhoto} />
