@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "expo": "~47.0.6",
+    "expo-cli": "^6.0.8",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-svg": "13.4.0",
-    "react-native-vision-camera": "^2.15.2"
+    "react-native-vision-camera": "^2.15.2",
+    "expo-camera": "~13.1.0",
+    "expo-sharing": "~11.0.1",
+    "expo-media-library": "~15.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
