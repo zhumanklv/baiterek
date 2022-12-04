@@ -11,7 +11,7 @@ import {
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
-const NavBar = ({ children }) => {
+const NavBar = ({}) => {
   const [tab, setTab] = useState("history");
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState(undefined);
@@ -58,14 +58,14 @@ const NavBar = ({ children }) => {
       <SafeAreaView style={styles.cameraContainer}>
         <Image
           style={styles.preview}
-          source={{ uri: "data:image/jpg;base64" + photo.base64 }}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission && (
           <Button title="Save" onPress={savePhoto} />
         )}
         <Button
-          title="Disard"
+          title="Discard"
           onPress={() => {
             setPhoto(undefined);
             setTab("history");
