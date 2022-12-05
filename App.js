@@ -13,7 +13,9 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 
-const BASE_URL = "http://192.168.0.189:3000";
+//const BASE_URL = "https://ggdm340m97.execute-api.eu-central-1.amazonaws.com"; //image/predict/image_json;
+const BASE_URL =
+  "http://baiterekmllb-1210194789.eu-central-1.elb.amazonaws.com";
 const NavBar = ({}) => {
   const [tab, setTab] = useState("history");
   let cameraRef = useRef();
@@ -21,7 +23,7 @@ const NavBar = ({}) => {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] =
     useState(undefined);
   const [photo, setPhoto] = useState(false);
-  const [response, setResponse] = useState("loading...");
+  const [response, setResponse] = useState(undefined);
 
   useEffect(() => {
     (async () => {
@@ -58,46 +60,54 @@ const NavBar = ({}) => {
       });
     };
 
-    const myjson = {
-      base64: photo.base64
-    };
-    
     const predictPic = async () => {
       try {
-        const formData = new FormData();
-        formData.append('file', {
-  uri: "data:image/jpg;base64," + photo.base64,
-  type: 'image/jpg',
-  name: 'image.jpg',
-});
-      // console.log("checkayu", photo);
-      const response = await axios.post(
-        BASE_URL + "/predict/image_json",
-        JSON.stringify(myjson),
-        {
-          headers: {
-            "Content-type": "application/json",
-            withCredentials: true,
-          },
-        }
-      );
-        
-      setResponse(response.data.class);
-  
+        const myjson = {
+          base64: photo.base64,
+        };
+        const response = await axios.post(
+          BASE_URL + "/predict/image_json",
+          JSON.stringify(myjson),
+          {
+            headers: {
+              "Content-type": "application/json",
+              withCredentials: true,
+            },
+          }
+        );
+        let str = response.data.class;
+        str = str
+          .split("")
+          .map((elem, i) => {
+            return i === 0 ? elem.toUpperCase() : elem;
+          })
+          .join("");
+        setResponse(str);
       } catch (error) {
-      console.log('Exception Error: ', error)
+        console.log("Exception Error: ", error);
       }
-      
     };
 
     return (
       <SafeAreaView style={styles.cameraContainer}>
-        <Image
-          style={styles.preview}
-          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        <View style={styles.previewContainer}>
+          <Image
+            style={styles.preview}
+            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          />
+          {response && (
+            <View style={styles.responseContainer}>
+              <Text style={styles.response}>{response}</Text>
+            </View>
+          )}
+        </View>
+        <Button
+          title="Predict"
+          onPress={() => {
+            setResponse("loading...");
+            predictPic();
+          }}
         />
-        <Text>{response}</Text>
-        <Button title="Predict" onPress={predictPic} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission && (
           <Button title="Save" onPress={savePhoto} />
@@ -107,6 +117,7 @@ const NavBar = ({}) => {
           onPress={() => {
             setPhoto(undefined);
             setTab("history");
+            setResponse(undefined);
           }}
         />
       </SafeAreaView>
@@ -218,8 +229,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignSelf: "flex-end",
   },
+  previewContainer: {
+    alignSelf: "stretch",
+    flex: 1,
+    position: "relative",
+  },
   preview: {
     alignSelf: "stretch",
     flex: 1,
+  },
+  responseContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    width: 170,
+    height: 120,
+    backgroundColor: "gray",
+    borderRadius: 10,
+    opacity: "0.6",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  response: {
+    fontSize: 25,
+    fontWeight: "0.8",
   },
 });
