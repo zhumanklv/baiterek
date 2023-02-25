@@ -30,7 +30,7 @@ export const NavBar = (props) => {
                 marginRight: "auto",
               }}
             />
-            <Text>{i18n.t()}</Text>
+            <Text>{i18n.t("history")}</Text>
           </TouchableOpacity>
         </View>
         <View
@@ -72,7 +72,7 @@ export const NavBar = (props) => {
                 marginRight: "auto",
               }}
             />
-            <Text>{strings.settings}</Text>
+            <Text>{i18n.t("settings")}</Text>
           </TouchableOpacity>
         </View>
       </View>
