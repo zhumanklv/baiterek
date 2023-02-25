@@ -8,8 +8,14 @@ import {
 } from "react-native";
 import CameraOuter from "../../assets/cameraOuter.svg";
 import CameraInner from "../../assets/cameraInner.svg";
-import strings from "../../localization.js";
+import { en, ru, kz } from "../../localization.js";
+import * as Localization from "expo-localization";
+import i18n from "i18n-js";
 export const NavBar = (props) => {
+  const [locale, setLocale] = useState(Localization.locale);
+  i18n.fallbacks = true;
+  i18n.translations = { en, ru, kz };
+  i18n.locale = locale;
   return (
     <View style={styles.navContainer}>
       <View style={styles.innerContainer}>
@@ -24,7 +30,7 @@ export const NavBar = (props) => {
                 marginRight: "auto",
               }}
             />
-            <Text>{strings.history}</Text>
+            <Text>{i18n.t()}</Text>
           </TouchableOpacity>
         </View>
         <View
