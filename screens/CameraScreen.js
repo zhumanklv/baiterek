@@ -15,9 +15,9 @@ import {
 import { Camera } from "expo-camera";
 import Back from "../assets/back.svg";
 import { setStatusBarBackgroundColor } from "expo-status-bar";
+import axios from "axios";
 
-const BASE_URL =
-  "http://baiterekmllb-1210194789.eu-central-1.elb.amazonaws.com";
+const BASE_URL = "http://0.0.0.0:80/";
 export const CameraScreen = ({ hasMediaLibraryPermission }) => {
   let cameraRef = useRef();
   const { tab, setTab } = useContext(Context);
@@ -31,22 +31,26 @@ export const CameraScreen = ({ hasMediaLibraryPermission }) => {
       exif: false,
     };
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    console.log("photo", newPhoto.uri);
     setPhoto(newPhoto);
   };
-
   const predictPic = async () => {
+    const formData = new FormData();
+    formData.append("file", photo.base64);
+
     try {
+      const url = BASE_URL + "predict/image";
       const response = await axios.post(
-        BASE_URL + "/predict/image_json",
-        JSON.stringify(myjson),
+        "http://0.0.0.0:80/predict/image",
+        formData,
         {
           headers: {
-            "Content-type": "application/json",
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
           },
         }
       );
+      console.log("response", response);
       setResponse(response.data.class);
     } catch (error) {
       console.log("Exception Error: ", error);

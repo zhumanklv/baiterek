@@ -13,13 +13,12 @@ import { History } from "./components/History";
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
-import axios from "axios";
+//import axios from "axios";
 import AppContext, { Context } from "./context/AppContext";
 import { CameraScreen } from "./screens/CameraScreen";
 
 //const BASE_URL = "https://ggdm340m97.execute-api.eu-central-1.amazonaws.com"; //image/predict/image_json;
-const BASE_URL =
-  "http://baiterekmllb-1210194789.eu-central-1.elb.amazonaws.com";
+const BASE_URL = "http://0.0.0.0:80/";
 const Main = ({}) => {
   const { tab, setTab, photo, setPhoto } = useContext(Context);
 
@@ -37,9 +36,10 @@ const Main = ({}) => {
   };
 
   const setHistory = () => {
-    console.log("something");
+    //console.log("something");
     setTab("history");
   };
+  //console.log("axios", axios);
 
   useEffect(() => {
     (async () => {
@@ -61,59 +61,8 @@ const Main = ({}) => {
     const myjson = {
       base64: photo.base64,
     };
-
-    const predictPic = async () => {
-      try {
-        const response = await axios.post(
-          BASE_URL + "/predict/image_json",
-          JSON.stringify(myjson),
-          {
-            headers: {
-              "Content-type": "application/json",
-              withCredentials: true,
-            },
-          }
-        );
-        setResponse(response.data.class);
-      } catch (error) {
-        console.log("Exception Error: ", error);
-      }
-    };
-
-    return (
-      <SafeAreaView style={styles.cameraContainer}>
-        <View style={styles.previewContainer}>
-          <Image
-            style={styles.preview}
-            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-          />
-          {response && (
-            <View style={styles.responseContainer}>
-              <Text style={styles.response}>{response}</Text>
-            </View>
-          )}
-        </View>
-        <Button
-          title="Predict"
-          onPress={() => {
-            setResponse("loading...");
-            predictPic();
-          }}
-        />
-        {hasMediaLibraryPermission && (
-          <Button title="Save" onPress={savePhoto} />
-        )}
-        <Button
-          title="Discard"
-          onPress={() => {
-            setPhoto(undefined);
-            setTab("history");
-            setResponse(undefined);
-          }}
-        />
-      </SafeAreaView>
-    );
   }
+
   return (
     <View style={styles.main}>
       {tab === "settings" && <Text style={styles.elem}>settings!!!</Text>}
