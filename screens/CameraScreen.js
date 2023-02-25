@@ -111,7 +111,7 @@ export const CameraScreen = ({ hasMediaLibraryPermission }) => {
                   borderWidth: 1,
                   borderColor: "black",
                   backgroundColor: "#4793C5",
-                  borderRadius: "50%",
+                  borderRadius: 48,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     backgroundColor: "#fff",
-    borderRadius: "50%",
+    borderRadius: 40,
     width: "80%",
     height: "80%",
   },
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   backContainer: {
     backgroundColor: "#4793C5",
-    borderRadius: "50%",
+    borderRadius: 20,
     width: 40,
     height: 40,
     position: "relative",

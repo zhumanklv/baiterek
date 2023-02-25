@@ -6,16 +6,20 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
+import { useState } from "react";
 import CameraOuter from "../../assets/cameraOuter.svg";
 import CameraInner from "../../assets/cameraInner.svg";
 import { en, ru, kz } from "../../localization.js";
 import * as Localization from "expo-localization";
-import i18n from "i18n-js";
+import { I18n } from "i18n-js";
 export const NavBar = (props) => {
   const [locale, setLocale] = useState(Localization.locale);
-  i18n.fallbacks = true;
-  i18n.translations = { en, ru, kz };
-  i18n.locale = locale;
+  // i18n.fallbacks = true;
+  // i18n.translations = { en, ru, kz };
+  // i18n.locale = locale;
+  const i18n = new I18n({ en, ru, kz });
+  i18n.defaultLocale = "en";
+  i18n.locale = "en";
   return (
     <View style={styles.navContainer}>
       <View style={styles.innerContainer}>
@@ -40,7 +44,7 @@ export const NavBar = (props) => {
             borderWidth: 1,
             borderColor: "black",
             backgroundColor: "#4793C5",
-            borderRadius: "50%",
+            borderRadius: 48,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   },
   cameraButton: {
     backgroundColor: "#fff",
-    borderRadius: "50%",
+    borderRadius: 45,
     width: "90%",
     height: "90%",
   },
