@@ -34,17 +34,19 @@ export const CameraScreen = ({ hasMediaLibraryPermission }) => {
     setPhoto(newPhoto);
   };
   const predictPic = async () => {
-    const formData = new FormData();
-    formData.append("file", photo.base64);
-
+    //const formData = new FormData();
+    //formData.append("file", photo.base64);
+    const myPhoto = {
+      file: photo.base64,
+    };
     try {
-      const url = BASE_URL + "predict/image";
+      //const url = BASE_URL + "predict/image";
       const response = await axios.post(
-        "http://0.0.0.0:80/predict/image",
-        formData,
+        "http://3.144.142.97/predict/image",
+        JSON.stringify(myPhoto),
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
             withCredentials: true,
           },
