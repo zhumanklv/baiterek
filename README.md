@@ -2,6 +2,7 @@
 
 steps:
 
+ - you should install npm with node. install node here https://nodejs.org/en
  - npm install
  - npm start
  - download Expo Go app from AppStore/Google play
